@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Synchronize.js plain html5 test</title>
+
+    <link href="/static/css/main.css" rel="stylesheet">
+
+    <script src="/static/js/lib/jquery.js"></script>
+    <script src="/static/js/synchronize.js"></script>
+    <script src="/static/js/main.js"></script>
+</head>
+
+<body>
+    <div class="videoWrapper">  
+    
+        {% for v in listvideo %}
+         {% if loop.index == 1 %}
+         <video id="example_video_{{loop.index}}" class="video" controls width="640" height="264" poster="img/oceans-clip.png" mediagroup="videoMG1">
+            <source src="/static/video/{{v}}" type='video/mp4' />            
+        </video>
+         {% else %}
+         <video id="example_video_{{loop.index}}" class="video" width="640" height="264" poster="img/oceans-clip.png" mediagroup="videoMG1">
+            <source src="/static/video/{{v}}" type='video/mp4' />            
+        </video>
+         {% endif %}
+        
+        {% endfor %}
+        
+    </div>
+    {% for v in listvideo %}
+    <div id="titre{{loop.index}}">  {{v}} </div>
+    {% endfor %}
+    <div class="clear">
+        Current time:
+        <span id="currentTime">0</span> seconds.
+        <span id="bufferInfo">Initializing players...</span>
+    </div>
+</body>
+
+</html>

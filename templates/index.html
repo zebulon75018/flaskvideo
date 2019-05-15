@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Synchronize.js plain html5 test</title>
+
+    <link href="/static/css/main.css" rel="stylesheet">
+
+    <script src="/static/js/lib/jquery.js"></script>
+    <script src="/static/js/synchronize.js"></script>
+    <script src="/static/js/main.js"></script>
+</head>
+
+<body>
+    <div class="videoWrapper">  
+    
+        {% for v in listvideo %}
+         <video id="example_video_{{loop.index}}" class="video" width="640" height="264" style="display:none" mediagroup="videoMG1">
+            <source src="/static/video/{{v}}" type='video/mp4' />            
+        </video>        
+        {% endfor %}
+        
+    </div>
+
+    
+    {% for v in listvideo %}
+    <div  onclick="showvideo({{loop.index}});">   {{v}} </div>
+    {% endfor %}
+    <div class="clear">
+        Current time:
+        <span id="currentTime">0</span> seconds.
+        <span id="bufferInfo">Initializing players...</span>
+    </div>
+    <script>
+    function showvideo(index) {
+    for (i = 0 ; i < 4; i++) {
+      if (i!=index)
+      {
+         $('#example_video_'+ i.toString()).hide();
+      }
+    }
+    $('#example_video_'+ index.toString()).show();
+  }
+    </script>
+</body>
+
+</html>
