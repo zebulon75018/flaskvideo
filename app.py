@@ -12,7 +12,8 @@ app.debug = True
 @app.route('/')
 def index():
     listvideo = os.listdir("static/video")
-    return render_template('indexOk.html',listvideo=listvideo)
+    percent = 100/(len(listvideo))
+    return render_template('indexPorto.html',listvideo=listvideo, percent= percent)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
