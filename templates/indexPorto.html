@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Synchronize.js plain html5 test</title>
-
-    <!--
-    <link href="/static/css/main.css" rel="stylesheet">
--->
-    <style>
+{% extends "layout.html" %}
+{% block content %}
+<style>
         body {
   width: 100%;
   margin: 0 auto;
@@ -19,16 +12,15 @@
   width: 640px;
   height: 480px;
 }
-.gallery-bar img {
+.gallery-bar video {
   display: block;
   width: 20%;
   float: left;
   cursor: pointer;
   opacity: 1;
 }
-.gallery-bar img:hover {
-  opacity: 0.5;
-}
+.gallery-bar video:hover {
+ }
 
 .gallery-label {
     width:100%;
@@ -40,17 +32,12 @@
   cursor: pointer;
   opacity: 1;
 }
-    </style>
-    <script src="/static/js/lib/jquery.js"></script>
-    <script src="/static/js/synchronize.js"></script>
-    <script src="/static/js/main.js"></script>
-</head>
 
-<body>
+
     <center>
-        <div class="full-img">
-                <canvas id="canvas"></canvas>
-            </div>
+        <div id="full-img">
+                
+        </div>
         </center>
                 <div class="gallery-bar">
     <div class="videoWrapper">  
@@ -75,7 +62,7 @@
     <span id="titre{{loop.index}}" style="width:{{percent}}%" onclick="grow({{loop.index}})">  {{v}} </span>
     {% endfor %}
     </div>
-    <br/>
+<br/>
     <div class="clear">
         Current time:
         <span id="currentTime">0</span> seconds.
@@ -95,28 +82,13 @@
 
     function grow(index) {
         console.log(index);
+        var v = $("#example_video_"+index).css(position= absolute; left= 100px;top= 150px;);
+        v.position({
+        of: $("#full-img"),
+        my: 'left+200 top+200',
+        at: 'left top'
+});
     }
 
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-
-    var video = document.getElementById('example_video_1');
-
-// set canvas size = video size when known
-    video.addEventListener('loadedmetadata', function() {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.left = (document.width - video.videoWidth)/2;
-    });
-
-    video.addEventListener('play', function() {
-     var $this = this; //cache
-    (function loop() {
-        if (!$this.paused && !$this.ended) {
-        ctx.drawImage($this, 0, 0);
-        setTimeout(loop, 1000 / 30); // drawing at 30fps
-        }
-    })();
-    }, 0);
 </script>
-</html>
+{% endblock %}

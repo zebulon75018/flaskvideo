@@ -1,47 +1,21 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-    <title>Synchronize.js plain html5 test</title>
+{% block content %}
 
-    <link href="/static/css/main.css" rel="stylesheet">
+{% for u in urltitle %}
+<div id="movie-card-list">
+	<!-- Card 1: Blade Runner -->
+	<div class="movie-card">
+		<div class="color-overlay">
+			<div class="movie-content">
+				<div class="movie-header">
+					<h1 class="movie-title">{{u["title"]}}</h1>
+				</div>
+				<p class="movie-desc">Number of video :{{listvideo|length}} </p>
+				<a class="btn btn-outline" href="{{u["url"]}}">Watch</a>
 
-    <script src="/static/js/lib/jquery.js"></script>
-    <script src="/static/js/synchronize.js"></script>
-    <script src="/static/js/main.js"></script>
-</head>
-
-<body>
-    <div class="videoWrapper">  
-    
-        {% for v in listvideo %}
-         <video id="example_video_{{loop.index}}" class="video" width="640" height="264" style="display:none" mediagroup="videoMG1">
-            <source src="/static/video/{{v}}" type='video/mp4' />            
-        </video>        
-        {% endfor %}
-        
+			</div>
+		</div>
     </div>
-
-    
-    {% for v in listvideo %}
-    <div  onclick="showvideo({{loop.index}});">   {{v}} </div>
     {% endfor %}
-    <div class="clear">
-        Current time:
-        <span id="currentTime">0</span> seconds.
-        <span id="bufferInfo">Initializing players...</span>
-    </div>
-    <script>
-    function showvideo(index) {
-    for (i = 0 ; i < 4; i++) {
-      if (i!=index)
-      {
-         $('#example_video_'+ i.toString()).hide();
-      }
-    }
-    $('#example_video_'+ index.toString()).show();
-  }
-    </script>
-</body>
-
-</html>
+{% endblock %}
