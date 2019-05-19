@@ -33,7 +33,7 @@
     
         {% for v in listvideo %}
         {% if loop.index == 1 %}
-         <video id="example_video_{{loop.index}}" controls class="video" width="640" height="264" mediagroup="videoMG1">
+         <video id="example_video_{{loop.index}}" controls autoplay class="video" width="640" height="264" mediagroup="videoMG1">
             <source src="/static/video/{{v}}" type='video/mp4' />            
         </video>   
         {% else %}
