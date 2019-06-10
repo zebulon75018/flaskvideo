@@ -1,0 +1,171 @@
+
+<!DOCTYPE html> 
+<title>Video/Canvas Demo 2</title>
+<style>
+
+
+#c {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -180px 0 0 20px;
+}
+ 
+#v {
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	/*margin: -180px 0 0 -500px;
+    */
+}
+
+.play-pause-btn {
+    display: block;
+    background-color: #111;
+    width: 60px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 5px 0;
+    font-family: arial;
+    cursor: pointer;
+    color: #fff;
+    }
+    
+    .progress {
+    width: 300px;
+    height: 15px;
+    background-color: #111;
+    position: relative;
+    margin: 20px auto;
+    }
+    
+    .video-progress {
+    width: auto;
+    height: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: lime;
+    }
+    
+    .video-progress > div {
+    position: absolute;
+    right: 0;
+    width: 2px;
+    height: 15px;
+    background-color: green;
+    }
+    </style>
+<script src="/static/js/lib/jquery.js"></script>
+
+<script>
+$(document).ready(function(){
+    
+
+    $('#v').on("timeupdate", function() {
+    $('.progress .video-progress').css('width', (100 / $('#v')[0].duration) * $('#v')[0].currentTime + '%')
+    });
+    
+    $('.play-pause-btn').on('click',function(){
+     
+    if($(this).attr('data-click') == 1) {
+    $(this).attr('data-click', 0)
+    $(this).text('Play')
+    $('#v')[0].pause();
+    } else {
+    $(this).attr('data-click', 1)
+    $(this).text('Pause')
+    $('#v')[0].play();
+    }
+     
+    
+    
+    $('.progress').on('click',function(e){
+    
+    var relX = e.pageX - $(this).offset().left;
+    var percentageLeft = (relX / $(this).width()) * 100
+    
+    $('.progress .video-progress').css('width', percentageLeft + '%')
+    $('#v')[0].currentTime = ($('#v')[0].duration / 100) * percentageLeft;
+    $('#v2')[0].currentTime = $('#v')[0].currentTime ;
+    draw();
+    });
+    
+    });
+ 
+    var v = document.getElementById('v');
+    var v2 = document.getElementById('v2');
+	var canvas = document.getElementById('c');
+	var context = canvas.getContext('2d');
+	var back = document.createElement('canvas');
+	var backcontext = back.getContext('2d');
+ 
+	var cw,ch;
+ 
+	v.addEventListener('play', function(){
+        cw = v.clientWidth;
+		ch = v.clientHeight;
+		canvas.width = cw;
+		canvas.height = ch;
+		back.width = cw;
+		back.height = ch;
+        v2.play();
+        //draw(v,context,backcontext,cw,ch);
+    },false);
+
+    v.addEventListener('pause', function(){
+        v2.pause();
+    });
+    
+    v.addEventListener('timeupdate', function () {
+      //console.log(this.currentTime);
+      v2.currentTime = this.currentTime;
+    });
+    v2.addEventListener('timeupdate', function () {
+        
+       //if ( v2.currentTime = this.currentTime ) {
+        //console.log("v2");
+        //console.log(this.currentTime);
+        draw();
+        //}
+      
+    })
+ 
+ 
+function draw(/*v,c,bc,w,h*/) {
+	if(v.paused || v.ended)	return false;
+	// First, draw it into the backing canvas
+	backcontext.drawImage(v,0,0,cw,ch);
+	// Grab the pixel data from the backing canvas
+	var idata = backcontext.getImageData(0,0,cw,ch);
+	// Draw the pixels onto the visible canvas
+	context.putImageData(idata,0,0);
+    // Start over!
+    requestAnimationFrame(draw);
+    //setTimeout(draw,20);
+}
+});
+
+</script> 
+ 
+
+ 
+<video  class="video" id=v controls loop > 
+
+	<source src="/static/video/{{listvideo[0]}}" type=video/mp4> 
+</video> 
+<video id="v2" class="viddeo" controls loop width="400px"> 
+
+	<source src="/static/video/{{listvideo[1]}}" type=video/mp4> 
+</video> 
+
+<canvas id=c></canvas> 
+<div class="play-pause-btn" data-click="0">Play</div>
+
+<div class="progress">
+<div class="video-progress"><div></div>
+
+</div>
+</div>
+</body>
+</html>
